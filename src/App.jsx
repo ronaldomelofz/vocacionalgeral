@@ -332,7 +332,7 @@ const css = `
   .intro-screen { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 48px 24px; text-align: center; max-width: 540px; margin: 0 auto; animation: fadeUp 0.5s ease; }
   .intro-title { font-size: clamp(22px, 6vw, 36px); font-weight: 400; line-height: 1.25; margin: 8px 0 12px; color: ${T.text}; }
   .intro-title em { color: ${T.gold}; font-style: italic; }
-  .intro-desc { font-family: ${T.sans}; font-size: 15px; color: ${T.textSoft}; line-height: 1.8; max-width: 400px; margin-bottom: 24px; }
+  .intro-desc { font-family: ${T.sans}; font-size: 15px; color: ${T.textSoft}; line-height: 1.8; max-width: 400px; margin-bottom: 24px; text-align: center; }
   .intro-btn { padding: 14px 44px; background: linear-gradient(135deg, ${T.gold}, ${T.goldDim}); border: none; border-radius: 12px; color: #1a1208; font-size: 15px; font-weight: 700; cursor: pointer; font-family: ${T.serif}; box-shadow: 0 8px 28px rgba(255,217,102,0.28); transition: transform 0.2s, box-shadow 0.2s; }
   .intro-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 36px rgba(255,217,102,0.38); }
   .intro-actions { display: flex; flex-direction: column; align-items: center; gap: 12px; width: 100%; max-width: 320px; margin-bottom: 8px; }
@@ -346,11 +346,16 @@ const css = `
   }
   .intro-btn-secondary:hover { background: linear-gradient(135deg, rgba(255,217,102,0.24), rgba(255,217,102,0.1)); border-color: rgba(255,217,102,0.8); transform: translateY(-2px); }
   .intro-sobre--destaque {
-    width: 100%; max-width: 420px; margin: 0 auto 20px; text-align: left;
+    width: 100%; max-width: 420px; margin: 0 auto 20px; text-align: center;
     background: rgba(255,217,102,0.06); border: 1px solid rgba(255,217,102,0.35);
     border-radius: 12px; padding: 4px 14px 10px;
   }
-  .intro-sobre--destaque summary { color: ${T.gold}; font-size: 13px; letter-spacing: 0.1em; }
+  .intro-sobre--destaque summary {
+    display: flex; align-items: center; justify-content: center; gap: 6px;
+    font-family: ${T.sans}; font-size: 13px; font-weight: 600; letter-spacing: 0.1em;
+    text-transform: uppercase; color: ${T.gold}; cursor: pointer;
+    padding: 10px 0; text-align: center; list-style: none;
+  }
   .intro-quote { margin-top: 22px; font-size: 14.85px; color: ${T.muted}; font-style: italic; line-height: 1.7; }
   .catalogo-screen { flex: 1; width: 100%; max-width: 560px; margin: 0 auto; padding: 20px 16px 32px; animation: fadeUp 0.4s ease; overflow-y: auto; }
   .catalogo-top { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
@@ -668,11 +673,12 @@ export default function App() {
               Teste Vocacional<br/><em>das Pastorais</em>
             </h1>
             <p className="intro-desc">
-              Responda {PERGUNTAS.length} perguntas de discernimento e descubra em qual pastoral paroquial Deus pode estar te chamando a servir.
+              Responda {PERGUNTAS.length} perguntas de discernimento<br />
+              e descubra em qual pastoral paroquial Deus pode estar te chamando a servir.
             </p>
             <details className="intro-sobre intro-sobre--destaque">
-              <summary style={{ fontFamily:T.sans, fontSize:13, fontWeight:600, cursor:"pointer", letterSpacing:"0.1em", textTransform:"uppercase", padding:"10px 0" }}>
-                O que são as pastorais? ▾
+              <summary>
+                O que são as pastorais? <span aria-hidden>▾</span>
               </summary>
               <p style={{ fontFamily:T.sans, fontSize:13, color:T.muted, lineHeight:1.65, marginTop:8 }}>
                 As pastorais são grupos de leigos e leigas organizados sob a direção do pároco para atender necessidades específicas, evangelizar e cuidar da comunidade. Cada paróquia organiza as suas de acordo com a realidade local — litúrgicas, formação, sociais, grupos específicos e apoio (como PASCOM e vocacional). Movimentos como a Renovação Carismática ou a Legião de Maria também podem estar presentes em comunhão com as pastorais.
@@ -684,7 +690,7 @@ export default function App() {
             </details>
             <div className="intro-actions">
               <button type="button" className="intro-btn-secondary" onClick={abrirCatalogo}>
-                Ver pastorais disponíveis ({TOTAL_PASTORAIS})
+                Ver pastorais disponíveis
               </button>
               <button type="button" className="intro-btn" onClick={() => setFase("nome")}>
                 Iniciar Discernimento ✦
