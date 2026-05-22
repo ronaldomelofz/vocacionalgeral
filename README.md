@@ -1,8 +1,8 @@
 # Teste Vocacional das Pastorais
 
-Ferramenta de discernimento para descobrir em qual **pastoral paroquial** cada fiel pode ser chamado a servir — com acesso de qualquer lugar do mundo e referência às diretrizes da [CNBB](https://www.cnbb.org.br/pastorais/).
+Ferramenta de discernimento para descobrir em qual **pastoral paroquial** cada fiel pode ser chamado a servir, com referência às diretrizes da [CNBB](https://www.cnbb.org.br/pastorais/).
 
-Desenvolvido com React + Vite + IA (Claude/Anthropic), opcional.
+Desenvolvido com React + Vite.
 
 **Repositório:** [github.com/ronaldomelofz/vocacionalgeral](https://github.com/ronaldomelofz/vocacionalgeral)  
 **Site (produção):** [vocacionalpastoral.netlify.app](https://vocacionalpastoral.netlify.app/)  
@@ -14,13 +14,15 @@ Desenvolvido com React + Vite + IA (Claude/Anthropic), opcional.
 
 As pastorais são grupos de leigos e leigas organizados sob a direção do pároco para atender necessidades específicas, evangelizar e cuidar da comunidade. Embora variem de acordo com a realidade de cada paróquia, costumam agrupar-se em:
 
-- **Litúrgicas e de celebração** — liturgia, acolhida, batismo e matrimônio, música, acólitos, MESCE
+- **Litúrgicas e de celebração** — liturgia, música (coral e canto), acolhida, batismo e matrimônio, acólitos, MESCE
 - **Educação e formação** — catequese, dízimo
 - **Sociais e de caridade** — criança, saúde, carcerária, povo de rua
 - **Grupos específicos** — familiar, juventude, pessoa idosa
 - **Apoio** — comunicação (PASCOM), vocacional
 
 Paróquias também podem abrigar **movimentos e associações** (Apostolado da Oração, Terço dos Homens, Renovação Carismática, Legião de Maria etc.), que possuem espiritualidade própria, mas atuam em comunhão com as pastorais.
+
+Na página inicial é possível **ver todas as pastorais** com uma breve explicação de cada uma.
 
 ---
 
@@ -34,13 +36,8 @@ Cada `git push` na branch `main` pode gerar deploy automático no Netlify.
 4. Confirme as configurações (já definidas em `netlify.toml`):
    - **Build command:** `npm run build`
    - **Publish directory:** `dist`
-   - **Functions directory:** `netlify/functions`
 5. Em **Site settings → Domain management**, use o site `vocacionalpastoral` ou o domínio desejado
 6. Clique em **Deploy site**
-
-### Variável de ambiente (IA opcional)
-
-No Netlify: **Site configuration → Environment variables** → adicione `ANTHROPIC_API_KEY` com sua chave da [Anthropic Console](https://console.anthropic.com/). Sem ela, o teste funciona com resultado local automático.
 
 ### Deploy manual (alternativa)
 
@@ -53,18 +50,6 @@ npm run build
 
 ---
 
-## Configurar a IA (opcional)
-
-O resultado personalizado usa a API da Anthropic (Claude).
-
-1. Acesse **https://console.anthropic.com/**
-2. Crie uma conta e gere uma API Key
-3. No Netlify: **Site Settings → Environment Variables** → `ANTHROPIC_API_KEY`
-
-> Sem a chave, o teste ainda funciona — com texto de fallback baseado na pontuação.
-
----
-
 ## Estrutura do projeto
 
 ```
@@ -72,7 +57,6 @@ vocacionalgeral/
 ├── index.html
 ├── netlify.toml
 ├── package.json
-├── netlify/functions/gerar-resultado.js
 └── src/
     ├── main.jsx
     └── App.jsx
