@@ -5,6 +5,7 @@ const CNBB_PASTORAIS = "https://www.cnbb.org.br/pastorais/";
 
 const PASTORAIS = {
   liturgia:     { id:"liturgia",     nome:"Pastoral Litúrgica & Acólitos",               icon:"✝️",  color:"#8B0000", bg:"rgba(139,0,0,0.13)",      area:"Litúrgicas",     desc:"Organiza o roteiro e o ambiente das missas. Coroinhas e acólitos auxiliam o padre no altar nas celebrações eucarísticas.",                         url:CNBB_PASTORAIS },
+  musica:       { id:"musica",       nome:"Pastoral da Música (Coral & Canto)",          icon:"🎵",  color:"#6A3020", bg:"rgba(106,48,32,0.13)",    area:"Litúrgicas",     desc:"Anima e eleva a oração da comunidade pelo canto sacro — coral, cantores, ensaios e repertório litúrgico em sintonia com a celebração.",              url:CNBB_PASTORAIS },
   enfermos:     { id:"enfermos",     nome:"Pastoral da Saúde & MESCE",                   icon:"🤲",  color:"#2A7A5A", bg:"rgba(42,122,90,0.13)",    area:"Sociais",        desc:"Oferece apoio espiritual aos doentes e idosos. Os Ministros Extraordinários da Comunhão levam a Eucaristia na missa e aos enfermos.",            url:CNBB_PASTORAIS },
   catequese:    { id:"catequese",    nome:"Pastoral da Catequese",                       icon:"📖",  color:"#1a4a8a", bg:"rgba(26,74,138,0.13)",    area:"Formação",       desc:"Prepara crianças, jovens e adultos para a Primeira Eucaristia, a Crisma e a transmissão da fé e da doutrina católica.",                            url:CNBB_PASTORAIS },
   batismo:      { id:"batismo",      nome:"Pastoral do Batismo",                         icon:"💧",  color:"#0A7B8E", bg:"rgba(10,123,142,0.13)",   area:"Litúrgicas",     desc:"Prepara pais e padrinhos para o compromisso batismal e o significado do sacramento no início da vida cristã.",                                    url:CNBB_PASTORAIS },
@@ -24,6 +25,16 @@ const PASTORAIS = {
   dizimo:       { id:"dizimo",       nome:"Pastoral do Dízimo",                          icon:"🕯️",  color:"#6A4A1A", bg:"rgba(106,74,26,0.13)",    area:"Formação",       desc:"Conscientiza sobre a corresponsabilidade na sustentação da igreja local e de suas obras sociais e missionárias.",                                  url:CNBB_PASTORAIS },
 };
 
+const TOTAL_PASTORAIS = Object.keys(PASTORAIS).length;
+
+const AREAS_PASTORAIS = ["Litúrgicas", "Formação", "Sociais", "Grupos", "Apoio", "Movimento"];
+
+function getPastoraisPorArea() {
+  return AREAS_PASTORAIS
+    .map(area => ({ area, itens: Object.values(PASTORAIS).filter(p => p.area === area) }))
+    .filter(g => g.itens.length > 0);
+}
+
 // ── 12 PERGUNTAS VOCACIONAIS ──────────────────────────────────────────────
 const PERGUNTAS = [
   {
@@ -31,9 +42,9 @@ const PERGUNTAS = [
     texto:"Como você descreveria seu encontro mais profundo e autêntico com Deus?",
     sub:"Pense no ambiente ou momento em que sua fé mais se alimenta e onde Deus parece mais real para você.",
     opcoes:[
-      { l:"A", texto:"Na beleza e no silêncio dos ritos sagrados — a Missa, a Eucaristia e os sacramentos me elevam ao divino de forma única",   pesos:{liturgia:3,enfermos:1} },
+      { l:"A", texto:"Na beleza e no silêncio dos ritos sagrados — a Missa, a Eucaristia e os sacramentos me elevam ao divino de forma única",   pesos:{liturgia:2,musica:2,enfermos:1} },
       { l:"B", texto:"Na oração contemplativa, no rosário e na intimidade com Nossa Senhora — é com Maria que encontro Jesus mais facilmente",      pesos:{maria:3,vocacional:1} },
-      { l:"C", texto:"Na experiência viva do Espírito Santo — nos carismas, na Palavra proclamada com fogo e no louvor fervoroso",                 pesos:{rcc:3,juventude:1} },
+      { l:"C", texto:"Na experiência viva do Espírito Santo — nos carismas, na Palavra proclamada com fogo e no louvor fervoroso",                 pesos:{rcc:2,musica:2,juventude:1} },
       { l:"D", texto:"No rosto do pobre, do enfermo e do excluído — é ali, nas periferias, que Cristo mais se revela para mim",                    pesos:{misericordia:3,campanha:2} },
     ],
   },
@@ -66,7 +77,7 @@ const PERGUNTAS = [
     opcoes:[
       { l:"A", texto:"Comunicar, criar conteúdo, fotografar, filmar, escrever ou gerenciar mídias digitais e redes sociais",                       pesos:{comunicacao:3,campanha:1} },
       { l:"B", texto:"Organizar, planejar, gerir recursos e garantir que estruturas e projetos funcionem com fidelidade",                          pesos:{dizimo:3,acolhimento:1,liturgia:1} },
-      { l:"C", texto:"Proclamar a Palavra, falar em público, conduzir orações e celebrações com presença e autoridade",                            pesos:{liturgia:3,rcc:2} },
+      { l:"C", texto:"Cantar, tocar ou conduzir o louvor — minha voz e minha música elevam a assembleia na oração e na liturgia",                  pesos:{musica:3,liturgia:2,rcc:1} },
       { l:"D", texto:"Ouvir com profundidade, acolher sem julgamento, consolar e estar presente para quem sofre",                                  pesos:{enfermos:3,misericordia:2,acolhimento:2} },
     ],
   },
@@ -141,7 +152,7 @@ const PERGUNTAS = [
     texto:"O que você mais sonha para a sua comunidade paroquial?",
     sub:"A visão que Deus coloca no coração não é devaneio — é semente do chamado que Ele tem para nós.",
     opcoes:[
-      { l:"A", texto:"Uma liturgia cada vez mais bela, digna e participativa, que faça as almas se elevarem ao Céu na Missa dominical",            pesos:{liturgia:3,enfermos:1,rcc:1} },
+      { l:"A", texto:"Uma liturgia cada vez mais bela, digna e participativa, que faça as almas se elevarem ao Céu na Missa dominical",            pesos:{liturgia:2,musica:3,enfermos:1} },
       { l:"B", texto:"Uma comunidade que abraça jovens e crianças com formação sólida, propostas de vida e espaço de pertencimento",              pesos:{juventude:2,catequese:2,menor:2} },
       { l:"C", texto:"Uma Igreja missionária, presente nas periferias e que comunica a fé na linguagem do mundo de hoje",                          pesos:{misericordia:2,comunicacao:2,campanha:2} },
       { l:"D", texto:"Casais e famílias cada vez mais fortalecidos — lares que são pequenas Igrejas irradiando Cristo para os vizinhos",           pesos:{familia:3,casais:3,matrimonio:1} },
@@ -178,37 +189,10 @@ function getRecomendados(ranking) {
   return ranking.filter((p, i) => i === 0 || p.pts >= max * 0.65);
 }
 
-// ── AI via Netlify Function ────────────────────────────────────────────────
-function makePrompt(nome, top) {
-  return `Você é um orientador vocacional espiritual da Igreja Católica (pastorais paroquiais em comunhão com a CNBB — Conferência Nacional dos Bispos do Brasil).
-
-O fiel "${nome}" concluiu o teste vocacional. As pastorais ou frentes de serviço mais indicadas foram:
-${top.map((p, i) => `${i + 1}ª: ${p.nome} (${p.pts} pontos)`).join("\n")}
-
-Escreva uma análise vocacional personalizada. Use EXATAMENTE este formato:
-
-CHAMADO: [3 frases descrevendo o chamado vocacional de ${nome} de forma espiritual, pessoal e acolhedora]
-DONS: [dom 1] | [dom 2] | [dom 3] | [dom 4]
-VERSÍCULO: [versículo bíblico adequado ao perfil com referência completa]
-PRÓXIMOS_PASSOS: [2 frases concretas sobre como ${nome} pode procurar a pastoral na paróquia local, conversar com o pároco ou coordenador e dar os primeiros passos]
-MENSAGEM: [3-4 frases de encorajamento espiritual usando o nome ${nome}, terminando com uma bênção]
-
-Use linguagem católica, calorosa e direta. Seja específico ao perfil revelado pelo teste.`;
-}
-
-function parseAI(text) {
-  const get = k => { const m = text.match(new RegExp(`${k}:\\s*(.+)`)); return m ? m[1].trim() : ""; };
-  return {
-    chamado: get("CHAMADO"),
-    dons: get("DONS").split("|").map(d => d.trim()).filter(Boolean),
-    versiculo: get("VERSÍCULO"),
-    passos: get("PRÓXIMOS_PASSOS"),
-    mensagem: get("MENSAGEM"),
-  };
-}
-
+// ── Resultado do discernimento ─────────────────────────────────────────────
 const VERSICULOS = {
   liturgia: "Sir 24,26 — No meio da assembleia abri a boca e bendisse o Senhor.",
+  musica: "Sl 150,6 — Tudo o que tem fôlego louve ao Senhor!",
   enfermos: "Mt 25,40 — Tudo o que fizestes a um destes meus irmãos mais pequeninos, a mim o fizestes.",
   catequese: "2 Tm 3,14 — Permanece firme no que aprendeste e de que tens convicção.",
   batismo: "Mt 28,19 — Ide, portanto, fazei discípulos de todas as nações, batizando-os.",
@@ -228,7 +212,7 @@ const VERSICULOS = {
   dizimo: "2 Co 9,7 — Cada um contribua segundo propôs no coração, não com tristeza.",
 };
 
-function gerarFallback(nome, top) {
+function gerarResultado(nome, top) {
   const principal = top[0];
   const secundarias = top.slice(1, 3).map(p => p.nome).join(" e ");
   return {
@@ -238,21 +222,6 @@ function gerarFallback(nome, top) {
     passos: `Procure na sua paróquia o coordenador(a) da ${principal.nome} ou converse com o pároco. Participe de uma reunião ou celebração dessa pastoral para conhecer a equipe.${secundarias ? ` Também vale explorar: ${secundarias}.` : ""} Consulte as diretrizes nacionais em cnbb.org.br/pastorais.`,
     mensagem: `${nome}, Deus não chama os capacitados — capacita os chamados. Que o Espírito Santo guie seus passos neste caminho de serviço na Igreja. Vá em paz e com alegria missionária!`,
   };
-}
-
-async function chamarIA(prompt) {
-  try {
-    const res = await fetch("/.netlify/functions/gerar-resultado", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ prompt }),
-    });
-    if (!res.ok) return null;
-    const data = await res.json();
-    return data.text || null;
-  } catch {
-    return null;
-  }
 }
 
 // Clareia cor hex para leitura em fundo escuro
@@ -324,7 +293,38 @@ const css = `
   .result-quote { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,217,102,0.2); border-radius: 13px; padding: 16px 18px; text-align: center; margin-bottom: 16px; }
   .result-quote p { font-size: 14px; color: ${T.textSoft}; line-height: 1.85; margin: 0; font-style: italic; }
   .result-footnote { font-family: ${T.sans}; font-size: 12px; color: ${T.muted}; font-style: italic; margin-bottom: 18px; }
-  .result-details summary { font-family: ${T.sans}; font-size: 11px; font-weight: 600; letter-spacing: 0.12em; color: ${T.goldDim}; text-transform: uppercase; cursor: pointer; padding: 8px 0; }
+  .result-ranking { margin-bottom: 28px; text-align: center; }
+  .result-ranking summary {
+    display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+    width: 100%; max-width: 440px; margin: 0 auto; padding: 15px 28px;
+    font-family: ${T.serif}; font-size: clamp(13px, 3.5vw, 15px); font-weight: 600;
+    letter-spacing: 0.12em; color: ${T.gold}; text-transform: uppercase;
+    cursor: pointer; outline: none; user-select: none;
+    background: linear-gradient(135deg, rgba(255,217,102,0.16), rgba(255,217,102,0.06));
+    border: 1.5px solid rgba(255,217,102,0.55); border-radius: 12px;
+    box-shadow: 0 6px 28px rgba(255,217,102,0.14);
+    transition: background 0.2s, border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+  }
+  .result-ranking summary:hover {
+    background: linear-gradient(135deg, rgba(255,217,102,0.24), rgba(255,217,102,0.1));
+    border-color: rgba(255,217,102,0.8);
+    box-shadow: 0 10px 36px rgba(255,217,102,0.22);
+    transform: translateY(-2px);
+  }
+  .result-ranking[open] summary {
+    border-bottom-left-radius: 0; border-bottom-right-radius: 0;
+    border-bottom-color: rgba(255,217,102,0.25);
+    margin-bottom: 0;
+  }
+  .result-ranking[open] summary .result-ranking-chevron { transform: rotate(180deg); }
+  .result-ranking-chevron { font-size: 11px; opacity: 0.9; transition: transform 0.25s ease; }
+  .result-ranking-panel {
+    max-width: 440px; margin: 0 auto; padding: 14px 12px 12px;
+    background: rgba(255,255,255,0.03);
+    border: 1.5px solid rgba(255,217,102,0.35); border-top: none;
+    border-radius: 0 0 12px 12px;
+    display: flex; flex-direction: column; gap: 7px;
+  }
   .result-rank-name { font-family: ${T.sans}; font-size: 12px; color: ${T.textSoft}; }
   .result-don { padding: 5px 14px; background: rgba(255,217,102,0.12); border: 1px solid rgba(255,217,102,0.45); border-radius: 999px; font-family: ${T.sans}; font-size: 12px; font-weight: 600; color: ${T.gold}; }
   .btn-pastorais { padding: 10px 22px; background: rgba(255,217,102,0.14); border: 1px solid rgba(255,217,102,0.5); border-radius: 10px; color: ${T.gold}; font-size: 13px; font-family: ${T.serif}; }
@@ -336,7 +336,49 @@ const css = `
   .intro-pills { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; margin-bottom: 32px; }
   .intro-btn { padding: 14px 44px; background: linear-gradient(135deg, ${T.gold}, ${T.goldDim}); border: none; border-radius: 12px; color: #1a1208; font-size: 15px; font-weight: 700; cursor: pointer; font-family: ${T.serif}; box-shadow: 0 8px 28px rgba(255,217,102,0.28); transition: transform 0.2s, box-shadow 0.2s; }
   .intro-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 36px rgba(255,217,102,0.38); }
+  .intro-actions { display: flex; flex-direction: column; align-items: center; gap: 12px; width: 100%; max-width: 320px; margin-bottom: 8px; }
+  .intro-btn-secondary {
+    width: 100%; padding: 13px 24px;
+    background: linear-gradient(135deg, rgba(255,217,102,0.16), rgba(255,217,102,0.06));
+    border: 1.5px solid rgba(255,217,102,0.55); border-radius: 12px;
+    color: ${T.gold}; font-size: 14px; font-weight: 600; cursor: pointer;
+    font-family: ${T.serif}; box-shadow: 0 6px 24px rgba(255,217,102,0.12);
+    transition: background 0.2s, border-color 0.2s, transform 0.2s;
+  }
+  .intro-btn-secondary:hover { background: linear-gradient(135deg, rgba(255,217,102,0.24), rgba(255,217,102,0.1)); border-color: rgba(255,217,102,0.8); transform: translateY(-2px); }
+  .intro-sobre--destaque {
+    width: 100%; max-width: 420px; margin: 0 auto 20px; text-align: left;
+    background: rgba(255,217,102,0.06); border: 1px solid rgba(255,217,102,0.35);
+    border-radius: 12px; padding: 4px 14px 10px;
+  }
+  .intro-sobre--destaque summary { color: ${T.gold}; font-size: 13px; letter-spacing: 0.1em; }
   .intro-quote { margin-top: 22px; font-size: 14.85px; color: ${T.muted}; font-style: italic; line-height: 1.7; }
+  .catalogo-screen { flex: 1; width: 100%; max-width: 560px; margin: 0 auto; padding: 20px 16px 32px; animation: fadeUp 0.4s ease; overflow-y: auto; }
+  .catalogo-top { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+  .catalogo-voltar { padding: 8px 14px; background: rgba(255,255,255,0.06); border: 1px solid ${T.border}; border-radius: 10px; color: ${T.textSoft}; font-size: 13px; cursor: pointer; font-family: ${T.serif}; flex-shrink: 0; }
+  .catalogo-voltar:hover { border-color: rgba(255,217,102,0.4); color: ${T.gold}; }
+  .catalogo-title { font-size: clamp(20px, 5vw, 26px); font-weight: 400; color: ${T.text}; margin: 0; line-height: 1.25; }
+  .catalogo-hint { font-family: ${T.sans}; font-size: 13px; color: ${T.muted}; line-height: 1.55; margin-bottom: 20px; font-style: italic; }
+  .catalogo-grupo { margin-bottom: 18px; }
+  .catalogo-grupo-titulo { font-family: ${T.sans}; font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: ${T.goldDim}; margin-bottom: 8px; padding-left: 2px; }
+  .catalogo-lista { display: flex; flex-direction: column; gap: 6px; }
+  .catalogo-item {
+    display: flex; align-items: center; gap: 10px; width: 100%; padding: 11px 12px;
+    background: ${T.surface}; border: 1px solid ${T.border}; border-radius: 10px;
+    cursor: pointer; text-align: left; transition: border-color 0.15s, background 0.15s;
+    font-family: ${T.sans}; font-size: 13px; color: ${T.textSoft};
+  }
+  .catalogo-item:hover { background: rgba(255,255,255,0.08); border-color: rgba(255,217,102,0.35); }
+  .catalogo-item.sel { border-color: rgba(255,217,102,0.65); background: rgba(255,217,102,0.1); color: ${T.text}; }
+  .catalogo-item-icon { font-size: 20px; flex-shrink: 0; }
+  .catalogo-item-nome { flex: 1; line-height: 1.35; }
+  .catalogo-detalhe {
+    margin: 4px 0 8px; padding: 12px 14px;
+    background: rgba(255,255,255,0.04); border-left: 3px solid var(--cat-accent, ${T.gold});
+    border-radius: 0 10px 10px 0; animation: fadeUp 0.25s ease;
+  }
+  .catalogo-detalhe p { font-family: ${T.sans}; font-size: 13px; color: ${T.textSoft}; line-height: 1.6; margin: 0; }
+  .catalogo-detalhe-tipo { font-family: ${T.sans}; font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--cat-accent, ${T.gold}); margin-bottom: 6px; }
   .nome-screen { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 48px 24px; text-align: center; max-width: 420px; margin: 0 auto; width: 100%; animation: fadeUp 0.5s ease; }
   .nome-title { font-size: 22px; font-weight: 400; color: ${T.text}; margin-bottom: 8px; }
   .nome-desc { font-family: ${T.sans}; font-size: 14.5px; color: ${T.textSoft}; line-height: 1.7; margin-bottom: 28px; max-width: 340px; }
@@ -372,6 +414,49 @@ function Pill({ children }) {
   );
 }
 
+function CatalogoPastorais({ selecionada, onSelect, onVoltar }) {
+  const grupos = getPastoraisPorArea();
+  return (
+    <div className="catalogo-screen">
+      <div className="catalogo-top">
+        <button type="button" className="catalogo-voltar" onClick={onVoltar}>← Voltar</button>
+        <h2 className="catalogo-title">Pastorais disponíveis</h2>
+      </div>
+      <p className="catalogo-hint">Toque em cada pastoral para ler uma breve explicação. Os nomes podem variar na sua paróquia.</p>
+      {grupos.map(({ area, itens }) => (
+        <section key={area} className="catalogo-grupo">
+          <div className="catalogo-grupo-titulo">{area}</div>
+          <div className="catalogo-lista">
+            {itens.map(p => (
+              <div key={p.id}>
+                <button
+                  type="button"
+                  className={`catalogo-item${selecionada === p.id ? " sel" : ""}`}
+                  onClick={() => onSelect(selecionada === p.id ? null : p.id)}
+                  aria-expanded={selecionada === p.id}
+                >
+                  <span className="catalogo-item-icon">{p.icon}</span>
+                  <span className="catalogo-item-nome">{p.nome}</span>
+                  <span style={{ fontSize:10, color:T.muted }}>{selecionada === p.id ? "▲" : "▼"}</span>
+                </button>
+                {selecionada === p.id && (
+                  <div className="catalogo-detalhe" style={{ "--cat-accent": p.color }}>
+                    {p.tipo === "movimento" && <div className="catalogo-detalhe-tipo">Movimento</div>}
+                    <p>{p.desc}</p>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </section>
+      ))}
+      <p style={{ fontFamily:T.sans, fontSize:12, color:T.muted, marginTop:16, textAlign:"center" }}>
+        <a href={CNBB_PASTORAIS} target="_blank" rel="noopener noreferrer" style={{ color:T.gold }}>Diretrizes na CNBB →</a>
+      </p>
+    </div>
+  );
+}
+
 function ProgressDots({ atual, total }) {
   return (
     <div style={{ display:"flex", gap:3, flexShrink:0 }}>
@@ -383,15 +468,6 @@ function ProgressDots({ atual, total }) {
           transition:"all 0.4s ease",
         }}/>
       ))}
-    </div>
-  );
-}
-
-function Spinner() {
-  return (
-    <div style={{ display:"flex", flexDirection:"column", alignItems:"center", gap:16, padding:"32px 0" }}>
-      <div style={{ width:32, height:32, borderRadius:"50%", border:"2px solid rgba(201,168,76,0.15)", borderTopColor:"#C9A84C", animation:"spin 0.9s linear infinite" }}/>
-      <p style={{ fontSize:13, color:"#E8C96A", fontStyle:"italic" }}>Gerando seu resultado personalizado...</p>
     </div>
   );
 }
@@ -530,7 +606,7 @@ export default function App() {
   const [ranking, setRanking] = useState([]);
   const [recomendados, setRecomendados] = useState([]);
   const [aiData, setAiData] = useState(null);
-  const [carregandoIA, setCarregandoIA] = useState(false);
+  const [pastoralCatalogSel, setPastoralCatalogSel] = useState(null);
   const topoRef = useRef(null);
   const inputRef = useRef(null);
 
@@ -555,7 +631,7 @@ export default function App() {
     const novas = [...respostas, { pId: PERGUNTAS[qAtual].id, opcao: opt }];
     setRespostas(novas);
 
-    setTimeout(async () => {
+    setTimeout(() => {
       if (qAtual < PERGUNTAS.length - 1) {
         setQAtual(q => q + 1);
         setSelecionada(null);
@@ -565,16 +641,8 @@ export default function App() {
         const rec = getRecomendados(r);
         setRanking(r);
         setRecomendados(rec);
+        setAiData(gerarResultado(inputNome.trim(), rec));
         setFase("resultado");
-        setCarregandoIA(true);
-        const texto = await chamarIA(makePrompt(inputNome.trim(), rec));
-        setCarregandoIA(false);
-        if (texto) {
-          const parsed = parseAI(texto);
-          setAiData(parsed.chamado ? parsed : gerarFallback(inputNome.trim(), rec));
-        } else {
-          setAiData(gerarFallback(inputNome.trim(), rec));
-        }
       }
     }, 900);
   }
@@ -582,7 +650,13 @@ export default function App() {
   function reiniciar() {
     setFase("intro"); setNome(""); setInputNome("");
     setQAtual(0); setRespostas([]); setSelecionada(null);
-    setRanking([]); setRecomendados([]); setAiData(null); setCarregandoIA(false);
+    setRanking([]); setRecomendados([]); setAiData(null);
+    setPastoralCatalogSel(null);
+  }
+
+  function abrirCatalogo() {
+    setPastoralCatalogSel(null);
+    setFase("catalogo");
   }
 
   const maxPts = recomendados[0]?.pts || 1;
@@ -603,15 +677,14 @@ export default function App() {
               Teste Vocacional<br/><em>das Pastorais</em>
             </h1>
             <p className="intro-desc">
-              Responda {PERGUNTAS.length} perguntas de discernimento e descubra em qual pastoral paroquial Deus pode estar te chamando a servir — em qualquer lugar do mundo, na realidade da sua comunidade local.
+              Responda {PERGUNTAS.length} perguntas de discernimento e descubra em qual pastoral paroquial Deus pode estar te chamando a servir.
             </p>
             <div className="intro-pills">
               <Pill>{PERGUNTAS.length} perguntas de discernimento</Pill>
-              <Pill>18 frentes avaliadas</Pill>
-              <Pill>Acesso global</Pill>
+              <Pill>{TOTAL_PASTORAIS} frentes avaliadas</Pill>
             </div>
-            <details className="intro-sobre" style={{ maxWidth:420, margin:"0 auto 24px", textAlign:"left" }}>
-              <summary style={{ fontFamily:T.sans, fontSize:12, fontWeight:600, color:T.goldDim, cursor:"pointer", letterSpacing:"0.08em", textTransform:"uppercase", padding:"8px 0" }}>
+            <details className="intro-sobre intro-sobre--destaque">
+              <summary style={{ fontFamily:T.sans, fontSize:13, fontWeight:600, cursor:"pointer", letterSpacing:"0.1em", textTransform:"uppercase", padding:"10px 0" }}>
                 O que são as pastorais? ▾
               </summary>
               <p style={{ fontFamily:T.sans, fontSize:13, color:T.muted, lineHeight:1.65, marginTop:8 }}>
@@ -622,13 +695,27 @@ export default function App() {
                 <a href={CNBB_PASTORAIS} target="_blank" rel="noopener noreferrer" style={{ color:T.gold }}>CNBB — Pastorais</a>
               </p>
             </details>
-            <button type="button" className="intro-btn" onClick={() => setFase("nome")}>
-              Iniciar Discernimento ✦
-            </button>
+            <div className="intro-actions">
+              <button type="button" className="intro-btn-secondary" onClick={abrirCatalogo}>
+                Ver pastorais disponíveis ({TOTAL_PASTORAIS})
+              </button>
+              <button type="button" className="intro-btn" onClick={() => setFase("nome")}>
+                Iniciar Discernimento ✦
+              </button>
+            </div>
             <p className="intro-quote">
               "Cada um recebeu um dom; use-o para servir os outros." — 1 Pe 4,10
             </p>
           </div>
+        )}
+
+        {/* ── CATÁLOGO DE PASTORAIS ── */}
+        {fase === "catalogo" && (
+          <CatalogoPastorais
+            selecionada={pastoralCatalogSel}
+            onSelect={setPastoralCatalogSel}
+            onVoltar={() => { setPastoralCatalogSel(null); setFase("intro"); }}
+          />
         )}
 
         {/* ── NOME ── */}
@@ -694,9 +781,6 @@ export default function App() {
                 </h2>
               </div>
 
-              {/* Loader IA */}
-              {carregandoIA && <Spinner/>}
-
               {/* Pastorais recomendadas */}
               {recomendados.length > 1 && (
                 <div style={{ fontSize:9, letterSpacing:3, color:"#E8C96A", textTransform:"uppercase", marginBottom:12, textAlign:"center" }}>
@@ -727,11 +811,12 @@ export default function App() {
               )}
 
               {/* Ranking completo */}
-              <details style={{ marginBottom:24 }}>
-                <summary style={{ fontSize:10, letterSpacing:3, color:"#F0C84A", textTransform:"uppercase", cursor:"pointer", marginBottom:12, outline:"none", userSelect:"none", padding:"8px 0" }}>
-                  Ver todas as 18 pastorais avaliadas ▾
+              <details className="result-ranking">
+                <summary>
+                  Ver todas as {TOTAL_PASTORAIS} pastorais avaliadas
+                  <span className="result-ranking-chevron" aria-hidden>▼</span>
                 </summary>
-                <div style={{ display:"flex", flexDirection:"column", gap:7, marginTop:12 }}>
+                <div className="result-ranking-panel">
                   {ranking.map((p) => {
                     const pct = Math.round((p.pts / (ranking[0].pts || 1)) * 100);
                     return (

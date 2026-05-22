@@ -80,13 +80,13 @@ vocacionalgeral/
 
 ---
 
-## Frentes avaliadas (18)
+## Frentes avaliadas (19)
 
 O teste considera pastorais paroquiais comuns e alguns movimentos frequentes nas comunidades brasileiras. Para diretrizes e pastorais nacionais, consulte sempre a [CNBB](https://www.cnbb.org.br/pastorais/).
 
 | Área | Exemplos no teste |
 |------|-------------------|
-| Litúrgicas | Litúrgica, Acolhida, Batismo, Matrimônio |
+| Litúrgicas | Litúrgica, Música (Coral & Canto), Acolhida, Batismo, Matrimônio |
 | Formação | Catequese, Dízimo |
 | Sociais | Saúde/MESCE, Menor/Criança, Caridade, Campanha da Fraternidade |
 | Grupos | Familiar, Juventude, Pessoa Idosa, Casais |
