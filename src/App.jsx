@@ -332,8 +332,7 @@ const css = `
   .intro-screen { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 48px 24px; text-align: center; max-width: 540px; margin: 0 auto; animation: fadeUp 0.5s ease; }
   .intro-title { font-size: clamp(22px, 6vw, 36px); font-weight: 400; line-height: 1.25; margin: 8px 0 12px; color: ${T.text}; }
   .intro-title em { color: ${T.gold}; font-style: italic; }
-  .intro-desc { font-family: ${T.sans}; font-size: 15px; color: ${T.textSoft}; line-height: 1.8; max-width: 400px; margin-bottom: 28px; }
-  .intro-pills { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; margin-bottom: 32px; }
+  .intro-desc { font-family: ${T.sans}; font-size: 15px; color: ${T.textSoft}; line-height: 1.8; max-width: 400px; margin-bottom: 24px; }
   .intro-btn { padding: 14px 44px; background: linear-gradient(135deg, ${T.gold}, ${T.goldDim}); border: none; border-radius: 12px; color: #1a1208; font-size: 15px; font-weight: 700; cursor: pointer; font-family: ${T.serif}; box-shadow: 0 8px 28px rgba(255,217,102,0.28); transition: transform 0.2s, box-shadow 0.2s; }
   .intro-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 36px rgba(255,217,102,0.38); }
   .intro-actions { display: flex; flex-direction: column; align-items: center; gap: 12px; width: 100%; max-width: 320px; margin-bottom: 8px; }
@@ -403,14 +402,6 @@ function Cross() {
       <div style={{ position:"absolute", top:"50%", left:"50%", transform:"translate(-50%,-50%)", width:3, height:50, background:`linear-gradient(180deg,${T.gold}55,${T.gold})`, borderRadius:2 }}/>
       <div style={{ position:"absolute", top:"30%", left:"50%", transform:"translate(-50%,-50%)", width:30, height:3, background:`linear-gradient(90deg,${T.gold}55,${T.gold},${T.gold}55)`, borderRadius:2 }}/>
     </div>
-  );
-}
-
-function Pill({ children }) {
-  return (
-    <span style={{ padding:"5px 14px", background:"rgba(255,217,102,0.12)", border:"1px solid rgba(255,217,102,0.4)", borderRadius:999, fontSize:12, fontWeight:600, fontFamily:T.sans, color:T.gold }}>
-      {children}
-    </span>
   );
 }
 
@@ -679,10 +670,6 @@ export default function App() {
             <p className="intro-desc">
               Responda {PERGUNTAS.length} perguntas de discernimento e descubra em qual pastoral paroquial Deus pode estar te chamando a servir.
             </p>
-            <div className="intro-pills">
-              <Pill>{PERGUNTAS.length} perguntas de discernimento</Pill>
-              <Pill>{TOTAL_PASTORAIS} frentes avaliadas</Pill>
-            </div>
             <details className="intro-sobre intro-sobre--destaque">
               <summary style={{ fontFamily:T.sans, fontSize:13, fontWeight:600, cursor:"pointer", letterSpacing:"0.1em", textTransform:"uppercase", padding:"10px 0" }}>
                 O que são as pastorais? ▾
