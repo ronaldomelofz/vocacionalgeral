@@ -392,11 +392,22 @@ const css = `
   .nome-btn { width: 100%; padding: 13px; border: none; border-radius: 12px; font-size: 15px; font-weight: 700; font-family: ${T.serif}; transition: all 0.2s; }
   .nome-btn.on { background: linear-gradient(135deg, ${T.gold}, ${T.goldDim}); color: #1a1208; cursor: pointer; box-shadow: 0 6px 20px rgba(255,217,102,0.25); }
   .nome-btn.off { background: rgba(255,255,255,0.06); color: ${T.muted}; cursor: default; }
+  .visit-counter {
+    position: fixed; right: 12px; bottom: 12px; z-index: 200;
+    padding: 7px 12px; border-radius: 8px;
+    font-family: ${T.sans}; font-size: 11px; font-weight: 500; letter-spacing: 0.02em;
+    color: ${T.muted}; background: rgba(12, 10, 8, 0.88);
+    border: 1px solid rgba(255, 217, 102, 0.28);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+    pointer-events: none; user-select: none;
+  }
+  .visit-counter strong { color: ${T.goldDim}; font-weight: 700; }
   @media (max-width: 560px), (max-height: 620px) {
     .quiz-options { grid-template-columns: 1fr; grid-template-rows: repeat(4, minmax(0, 1fr)); gap: 6px; }
     .quiz-body { padding: 8px 10px 10px; }
     .quiz-opt { padding: 8px 10px; }
     .quiz-opt-text { -webkit-line-clamp: 3; }
+    .visit-counter { right: 8px; bottom: 8px; font-size: 10px; padding: 6px 10px; }
   }
 `;
 
@@ -406,6 +417,44 @@ function Cross() {
     <div style={{ position:"relative", width:48, height:56, margin:"0 auto 24px", flexShrink:0 }}>
       <div style={{ position:"absolute", top:"50%", left:"50%", transform:"translate(-50%,-50%)", width:3, height:50, background:`linear-gradient(180deg,${T.gold}55,${T.gold})`, borderRadius:2 }}/>
       <div style={{ position:"absolute", top:"30%", left:"50%", transform:"translate(-50%,-50%)", width:30, height:3, background:`linear-gradient(90deg,${T.gold}55,${T.gold},${T.gold}55)`, borderRadius:2 }}/>
+    </div>
+  );
+}
+
+const VISIT_SESSION_KEY = "vocacional-visit-counted";
+
+function ContadorAcessos() {
+  const [count, setCount] = useState(null);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    (async () => {
+      try {
+        const jaContou = sessionStorage.getItem(VISIT_SESSION_KEY);
+        const res = await fetch(
+          `/.netlify/functions/acessos`,
+          { method: jaContou ? "GET" : "POST" }
+        );
+        if (!res.ok) return;
+        const data = await res.json();
+        if (!cancelled && typeof data.count === "number") {
+          setCount(data.count);
+          if (!jaContou) sessionStorage.setItem(VISIT_SESSION_KEY, "1");
+        }
+      } catch {
+        /* contador opcional — falha silenciosa em dev local */
+      }
+    })();
+
+    return () => { cancelled = true; };
+  }, []);
+
+  if (count === null) return null;
+
+  return (
+    <div className="visit-counter" aria-live="polite">
+      <strong>{count.toLocaleString("pt-BR")}</strong> acessos
     </div>
   );
 }
@@ -854,6 +903,7 @@ export default function App() {
           </>
         )}
       </div>
+      <ContadorAcessos />
     </>
   );
 }
